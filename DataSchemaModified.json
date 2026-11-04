@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TreePose Trainer Database Schema",
+  "description": "Ієрархічна JSON-схема даних для програмного продукту інформаційної підтримки йога-пози 'Дерево'",
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": "object",
+      "description": "Об'єкт користувача",
+      "properties": {
+        "email": {
+          "description": "Електронна пошта користувача",
+          "type": "text",
+          "format": "email",
+          "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        },
+        "name": {
+          "description": "Ім'я користувача",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "level": {
+          "description": "Рівень фізичної підготовки",
+          "type": "string",
+          "enum": ["початковий", "середній", "високий"]
+        }
+      },
+      "required": ["email", "name", "level"]
+    },
+    "poseLibrary": {
+      "type": "object",
+      "description": "Бібліотека йога-поз",
+      "properties": {
+        "libraryName": {
+          "description": "Назва бібліотеки",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "totalPoses": {
+          "description": "Загальна кількість поз у бібліотеці",
+          "type": "integer",
+          "minimum": 1
+        },
+        "yogaPoses": {
+          "description": "Масив об'єктів йога-поз",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "poseName": {
+                "description": "Назва йога-пози",
+                "type": "string",
+                "pattern": "^[А-ЯІЇЄа-яіїєA-Za-z\\s'-]{1,100}$"
+              },
+              "description": {
+                "description": "Текстовий опис пози",
+                "type": "string",
+                "maxLength": 500
+              },
+              "difficultyLevel": {
+                "description": "Рівень складності пози",
+                "type": "string",
+                "enum": ["початковий", "середній", "високий"]
+              },
+              "referenceModel": {
+                "description": "Еталонна модель виконання (посилання або координати)",
+                "type": "string"
+              }
+            },
+            "required": ["poseName", "difficultyLevel"]
+          }
+        }
+      },
+      "required": ["libraryName", "totalPoses", "yogaPoses"]
+    },
+    "trainingResult": {
+      "type": "object",
+      "description": "Результат тренування",
+      "properties": {
+        "trainingTime": {
+          "description": "Час тренування",
+          "type": "string",
+          "format": "date-time"
+        },
+        "assessments": {
+          "description": "Масив оцінок (правильність, симетрія)",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "scoreValue": {
+                "description": "Значення оцінки",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "maxValue": {
+                "description": "Максимально можливе значення",
+                "type": "number",
+                "default": 100
+              }
+            },
+            "required": ["scoreValue", "maxValue"]
+          }
+        },
+        "hints": {
+          "description": "Масив підказок для користувача",
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "hintText": {
+                "description": "Текст підказки",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "hintType": {
+                "description": "Тип підказки",
+                "type": "string",
+                "enum": ["Добре", "Увага", "Помилка", "Рекомендація"]
+              }
+            },
+            "required": ["hintText", "hintType"]
+          }
+        }
+      },
+      "required": ["trainingTime", "assessments"]
+    }
+  },
+  "required": ["user", "poseLibrary", "trainingResult"]
+}
