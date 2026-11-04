@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "TreePose Trainer Database Schema",
   "description": "Ієрархічна JSON-схема даних для програмного продукту інформаційної підтримки йога-пози 'Дерево'",
-  "type" "object",
+  "type": "object",
   "properties": {
     "user": {
       "type": "object",
@@ -10,7 +10,7 @@
       "properties": {
         "email": {
           "description": "Електронна пошта користувача",
-          "type": "text",
+          "type": "string",
           "format": "email",
           "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
         },
@@ -67,10 +67,12 @@
               },
               "referenceModel": {
                 "description": "Еталонна модель виконання (посилання або координати)",
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
               }
             },
-            "required": ["poseName", "difficultyLevel"]
+            "required": ["poseName", "difficultyLevel", "referenceModel"]
           }
         }
       },
@@ -134,4 +136,3 @@
     }
   },
   "required": ["user", "poseLibrary", "trainingResult"]
-}
