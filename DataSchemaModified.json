@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "TreePose Trainer Database Schema",
   "description": "Ієрархічна JSON-схема даних для програмного продукту інформаційної підтримки йога-пози 'Дерево'",
-  "type": "object",
+  "type" "object",
   "properties": {
     "user": {
       "type": "object",
